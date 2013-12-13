@@ -51,13 +51,12 @@ class PerforceP4CONFIGHandler(sublime_plugin.EventListener):
         if sublime is not None:
             global command_prefix
             if command_prefix is None:
-                command_prefix = PrepareCommand()
-                LogResults(True, command_prefix)
+                command_prefix = getCommandPrefix()
 
 # Executed at startup to store the path of the plugin... necessary to open files relative to the plugin
 perforceplugin_dir = os.getcwdu()
 
-def PrepareCommand():
+def getCommandPrefix():
     perforce_settings = sublime.load_settings('Perforce.sublime-settings')
     p4Env = perforce_settings.get('perforce_p4env')
     if(p4Env and p4Env != ''):
@@ -70,7 +69,10 @@ def PrepareCommand():
 
 # Utility functions
 def ConstructCommand(in_command):
-    return command_prefix + in_command;
+    if command_prefix is not None:
+        return command_prefix + in_command;
+    else:
+        return in_command;
 
 def getPerforceConfigFromPreferences(command):
     perforce_settings = sublime.load_settings('Perforce.sublime-settings')
