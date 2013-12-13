@@ -69,10 +69,7 @@ def getCommandPrefix():
 
 # Utility functions
 def ConstructCommand(in_command):
-    if command_prefix is not None:
-        return command_prefix + in_command;
-    else:
-        return in_command;
+    return command_prefix + in_command if command_prefix is not None else in_command;
 
 def getPerforceConfigFromPreferences(command):
     perforce_settings = sublime.load_settings('Perforce.sublime-settings')
